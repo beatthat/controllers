@@ -1,0 +1,37 @@
+{
+  "name": "unity-controllers",
+  "version": "0.0.1",
+  "description": "a non-dogmatic triad framework for unity",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beatthat/unity-controllers.git"
+  },
+  "files": [
+    "index.js",
+    "scripts",
+    "src"
+  ],
+  "author": "larrykirschner@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beatthat/unity-controllers/issues"
+  },
+  "homepage": "https://github.com/beatthat/unity-controllers",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "install:test": "rm -f *.tgz && npm pack && cd test && npm run clean && npm install"
+  },
+  "dependencies": {
+    "ncp": "^2.0.0",
+    "mkdirp": "^0.5.1",
+    "unity-services": "beatthat/unity-services#semver:^0.0.4",
+    "unity-binding-behaviours": "beatthat/unity-binding-behaviours#semver:^0.0.8",
+    "unity-notifications": "beatthat/unity-notifications#semver:^0.0.9",
+    "unity-utils": "beatthat/unity-utils#semver:^0.0.5",
+    "unity-pools": "beatthat/unity-pools#semver:^0.0.5",
+    "unity-placements": "beatthat/unity-placements#semver:^0.0.1",
+    "unity-commands-core": "beatthat/unity-commands-core#semver:^0.0.5",
+    "unity-type-utils": "beatthat/unity-type-utils#semver:^0.0.3"
+  }
+}
