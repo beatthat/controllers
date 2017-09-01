@@ -1,6 +1,6 @@
 {
   "name": "unity-controllers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a non-dogmatic triad framework for unity",
   "main": "index.js",
   "repository": {
@@ -25,8 +25,10 @@
   "dependencies": {
     "ncp": "^2.0.0",
     "mkdirp": "^0.5.1",
+    "unity-controller-interfaces": "beatthat/unity-controller-interfaces#semver:^0.0.1",
+    "unity-bindings": "beatthat/unity-bindings#semver:^0.0.3",
     "unity-services": "beatthat/unity-services#semver:^0.0.4",
-    "unity-binding-behaviours": "beatthat/unity-binding-behaviours#semver:^0.0.8",
+    "unity-binding-behaviours": "beatthat/unity-binding-behaviours#semver:^0.0.9",
     "unity-notifications": "beatthat/unity-notifications#semver:^0.0.9",
     "unity-utils": "beatthat/unity-utils#semver:^0.0.5",
     "unity-pools": "beatthat/unity-pools#semver:^0.0.5",
