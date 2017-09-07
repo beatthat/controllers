@@ -18,17 +18,17 @@ namespace BeatThat
 
 		/// <summary>
 		/// This is only for presenters that don't have a model.
-		/// 
+		///
 		/// It's usually convenient if these presenters call their own ResetBindGo
 		/// either when they Start or OnEnable.
-		/// 
+		///
 		/// This helps ensure that if they are owned by another Presenter and 'Attached'
 		/// that they will Unbind when their owner Unbinds.
-		/// 
-		/// Example, a panel has a ScrollList of items attached 
+		///
+		/// Example, a panel has a ScrollList of items attached
 		/// and it's important that the ScrollList unbinds when its owner unbinds
 		/// so that it will clear its items.
-		/// 
+		///
 		/// This field should be managed by a custom unity Editor
 		/// so that it only displays in the inspector for presenters that have no model
 		/// </summary>
@@ -62,7 +62,7 @@ namespace BeatThat
 		{
 			// this behaviour should never apply to a presenter that has a model
 			var hasModel = this as HasModel;
-			if(hasModel != null && hasModel.GetModelType() != typeof(NoModel)) { 
+			if(hasModel != null && hasModel.GetModelType() != typeof(NoModel)) {
 				return;
 			}
 
@@ -72,7 +72,7 @@ namespace BeatThat
 					EnsureResetBindGo();
 				}
 				break;
-			
+
 				case TriggerEvent.ENABLE:
 				if(t == TriggerEvent.ENABLE) {
 					EnsureResetBindGo();
@@ -81,7 +81,7 @@ namespace BeatThat
 			}
 		}
 
-		public void Reset() 
+		public void Reset()
 		{
 			m_gameObject = this.gameObject;
 			if(this.isBound) {
@@ -91,9 +91,9 @@ namespace BeatThat
 		}
 
 		virtual protected void ResetController() {}
-		
+
 		virtual protected void ReleaseView() {}
-		
+
 		public void ResetBindGo()
 		{
 			Reset();
@@ -115,7 +115,7 @@ namespace BeatThat
 				return this.gameObject != null && !this.gameObject.activeSelf;
 			}
 		}
-		
+
 		virtual public void Hide(bool hide)
 		{
 			if(this.isValid) {
@@ -125,8 +125,8 @@ namespace BeatThat
 
 		/// <summary>
 		/// Determines whether this Controller will bind sibling subcontrollers.
-		/// 
-		/// Generally we only want to 'main' controller on a GameObject to bind subcontrollers, 
+		///
+		/// Generally we only want to 'main' controller on a GameObject to bind subcontrollers,
 		/// so by default, returns FALSE the implementation does NOT itself implement ISubcontroller,
 		/// even if the bindSubcontrollers property is set to TRUE.
 		/// </summary>
@@ -136,7 +136,7 @@ namespace BeatThat
 				return m_bindSubcontrollers && !(this is ISubcontroller);
 			}
 		}
-		
+
 		/// <summary>
 		/// Base implementation sets isBound property.
 		/// overriding implementations should call base.Bind() as last step
@@ -152,7 +152,7 @@ namespace BeatThat
 				BindSubcontrollers();
 			}
 		}
-		
+
 		virtual public void Go() {}
 
 	 	override protected void UnbindAll()
@@ -163,12 +163,12 @@ namespace BeatThat
 				ReleaseView();
 			}
 		}
-		
+
 		/// <summary>
 		/// Put your controller's custom Bind code here.
 		/// </summary>
 		virtual protected void BindController() {}
-		
+
 		/// <summary>
 		/// Put your controller's custom Unbind code here.
 		/// </summary>
@@ -203,17 +203,26 @@ namespace BeatThat
 		[System.Obsolete("shouldn't need the ICommandSet any more, use NotificationCommand which binds/unbinds with the controller")]
 		protected ICommandSet GetCommands(bool create)
 		{
-			var cs = m_commands.value ?? GetComponent<ICommandSet> ();
-
-			if(cs == null) {
-				var csType = TypeUtils.Find("BeatThat.App.CommandSet");
-				if(csType == null) {
-					return null;
-				}
-
-				m_commands.value = cs = this.gameObject.AddComponent(csType) as ICommandSet;
+			var cs = m_commands.value;
+			if(cs != null) {
+				return cs;
 			}
 
+			m_commands.value = cs = GetComponent<ICommandSet>();
+			if(cs != null || !create) {
+				return cs;
+			}
+
+			var csType = TypeUtils.Find("BeatThat.App.CommandSet");
+			if(csType == null) {
+				#if UNITY_EDITOR || APE_DEBUG_UNSTRIP
+				Debug.LogWarning("[" + Time.frameCount + "][" + this.Path()
+					+ "] GetCommands(create:true) called and no CommandSet implementation found. Really code should be changed to not use deprecated CommandSet");
+				#endif
+				return null;
+			}
+
+			m_commands.value = cs = this.gameObject.AddComponent(csType) as ICommandSet;
 			return cs;
 		}
 		virtual protected void BindSubcontrollers()
@@ -229,17 +238,17 @@ namespace BeatThat
 				}
 			}
 		}
-		protected Action<T> IfBound<T>(Action<T> cb) 
+		protected Action<T> IfBound<T>(Action<T> cb)
 		{
 			GameObject goRef = this.gameObject;
 
 			return SafeCallback.Wrap<T>(cb, () => goRef != null && this.isBound);
 		}
 
-		protected Action IfBound(Action cb) 
+		protected Action IfBound(Action cb)
 		{
 			GameObject goRef = this.gameObject;
-			
+
 			return SafeCallback.Wrap(cb, () => goRef != null && this.isBound);
 		}
 
@@ -284,12 +293,12 @@ namespace BeatThat
 		}
 
 		virtual public ModelType model { get; set; }
-		
+
 		virtual public void GoWithModel(object model)
 		{
 			GoWith((ModelType)model);
 		}
-		
+
 		virtual public void GoWith(ModelType m)
 		{
 			if(this.isBound) {
@@ -301,13 +310,13 @@ namespace BeatThat
 				Unbind();
 				this.model = default(ModelType);
 			}
-					
+
 			Reset();
 			this.model = m;
 			Bind();
 			Go();
 		}
-		
+
 		virtual public void SetModel(object model)
 		{
 			this.model = (ModelType)model;
@@ -318,20 +327,20 @@ namespace BeatThat
 			return this.model;
 		}
 
-		public Type GetModelType() { return typeof(ModelType); } 
-		
+		public Type GetModelType() { return typeof(ModelType); }
+
 	}
 
 	public interface ViewController : HasView  {} // non generic marker interface to identify instances of Controller<M,V> without knowing M or V
 
 	public abstract class Controller<ModelType, ViewType> : Controller<ModelType>, IController<ModelType, ViewType>, ViewController
 		where ModelType : class
-		where ViewType : class, IView 
+		where ViewType : class, IView
 	{
-		
+
 		/// <summary>
 		/// This is only for set ups where the view is a distinct component on a distinct gameobject from the presenter.
-		/// 
+		///
 		/// By default IController::Hide(bool) will disable the presenter's game object.
 		/// If this is true, then will hide only the view.
 		/// </summary>
@@ -342,7 +351,7 @@ namespace BeatThat
 		{
 			return this.hasView;
 		}
-		
+
 		public bool hasView
 		{
 			get {
@@ -393,7 +402,7 @@ namespace BeatThat
 			}
 		}
 
-		public ViewType view 
+		public ViewType view
 		{
 			get {
 				if(!this.hasView) {
@@ -407,12 +416,12 @@ namespace BeatThat
 				m_viewGo = m_viewIsComponent ? (m_view as Component).gameObject : null;
 			}
 		}
-		
+
 		protected VT ViewAs<VT>() where VT : class
 		{
 			return this.view as VT;
 		}
-		
+
 		override protected void ResetController()
 		{
 			base.ResetController();
@@ -421,7 +430,7 @@ namespace BeatThat
 				this.view.Reset();
 			}
 		}
-		
+
 		override public void Go()
 		{
 			// default behaviour is just to make sure view is visible on go
@@ -435,8 +444,8 @@ namespace BeatThat
 				}
 			}
 		}
-		
-		private void Init() 
+
+		private void Init()
 		{
 			if(!this.hasView) {
 				this.view = CreateView();
@@ -444,14 +453,14 @@ namespace BeatThat
 					this.view.transform.gameObject.SetActive(false);
 				}
 			}
-			
+
 			if(!this.hasView) {
 				Debug.LogWarning("[" + Time.time + "][" + this.Path() + "] " + GetType() + "::Init failed to create view!");
 			}
 		}
-		
+
 		private bool m_isViewHidden;
-		
+
 		[HideInInspector][SerializeField]private LayerSource m_forceLayerTo = LayerSource.NONE;
 
 
@@ -462,9 +471,9 @@ namespace BeatThat
 			var v = FindView();
 
 			if(v == null) {
-				Debug.LogWarning("[" + Time.time + "][" + this.Path() + "] " + GetType() 
+				Debug.LogWarning("[" + Time.time + "][" + this.Path() + "] " + GetType()
 					+ "::CreateView unable to create a view of any type. Is view placement component missing?");
-				
+
 				return null;
 			}
 
@@ -494,7 +503,7 @@ namespace BeatThat
 		}
 
 		private IViewPlacement m_viewPlacement;
-		
+
 		private ViewType m_view;
 		private GameObject m_viewGo;
 		private bool m_viewIsComponent;
