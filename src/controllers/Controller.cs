@@ -5,6 +5,11 @@ using System;
 
 namespace BeatThat
 {
+	/// <summary>
+	/// Basic Controller impl that you can subclass.
+	/// 
+	/// Includes the behaviour to find and manage any sibling ISubcontroller behaviours.
+	/// </summary>
 	public class Controller : BindingBehaviour, IController
 	{
 		public enum TriggerEvent { NONE = 0, START = 1, ENABLE = 2 }
