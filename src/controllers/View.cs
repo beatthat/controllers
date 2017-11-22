@@ -4,6 +4,10 @@ using BeatThat.App;
 
 namespace BeatThat
 {
+	/// <summary>
+	/// A Controller doesn't always needs a distinct view component, 
+	/// but may have one if you want to, say, create a prefab for a controller's view and instantiate it when the controller activates.
+	/// </summary>
 	public class View : MonoBehaviour, IView
 	{
 		public ViewEditorControls m_viewEditorControls; // exists just to make inspector draw controls for all view types
