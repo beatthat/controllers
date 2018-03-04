@@ -1,7 +1,7 @@
 {
   "name": "controllers",
   "scope": "ape",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "a non-dogmatic MVC'ish framework for unity",
   "main": "index.js",
   "repository": {
