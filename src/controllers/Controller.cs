@@ -6,9 +6,7 @@ using System;
 namespace BeatThat
 {
 	/// <summary>
-	/// A Controller connects data and events to presentation.
-	/// 
-	/// This is the basic Controller impl that you can subclass.
+	/// Basic Controller impl that you can subclass.
 	/// 
 	/// Includes the behaviour to find and manage any sibling ISubcontroller behaviours.
 	/// </summary>
