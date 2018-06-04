@@ -1,6 +1,6 @@
 {
   "name": "controllers",
-  "scope": "ape",
+  "scope": "beatthat",
   "version": "1.0.0",
   "description": "a non-dogmatic MVC'ish framework for unity",
   "main": "index.js",
@@ -11,7 +11,9 @@
   "files": [
     "index.js",
     "scripts",
-    "src"
+    "src",
+    "Runtime",
+    "Samples"
   ],
   "author": "larrykirschner@gmail.com",
   "license": "MIT",
@@ -32,18 +34,19 @@
     "postversion": "git push && git push --tags && npm run clean"
   },
   "dependencies": {
-    "path": "^0.12.7",
-    "unity-npm-utils": "github:beatthat/unity-npm-utils#semver:^1.0.0",
-    "bindings": "beatthat/bindings#semver:^1.0.0",
     "binding-behaviours": "beatthat/binding-behaviours#semver:^1.0.0",
+    "bindings": "beatthat/bindings#semver:^1.0.0",
     "commands-core": "beatthat/commands-core#semver:^1.0.0",
     "controller-interfaces": "beatthat/controller-interfaces#semver:^1.0.0",
     "gameobject-utils": "beatthat/gameobject-utils#semver:^1.0.0",
     "notifications": "beatthat/notifications#semver:^1.0.0",
+    "optional-components": "github:beatthat/optional-components#semver:^1.0.0",
+    "path": "^0.12.7",
     "placements": "beatthat/placements#semver:^1.0.0",
     "pools": "beatthat/pools#semver:^1.0.0",
     "services": "beatthat/services#semver:^1.0.0",
-    "type-utils": "beatthat/type-utils#semver:^1.0.0"
+    "type-utils": "beatthat/type-utils#semver:^1.0.0",
+    "unity-npm-utils": "github:beatthat/unity-npm-utils#semver:^1.0.0"
   },
   "devDependencies": {}
 }

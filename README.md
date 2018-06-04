@@ -1,3 +1,5 @@
+a non-dogmatic MVC'ish framework for unity
+
 # TEMPLATE
 
 ...
