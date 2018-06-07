@@ -1,7 +1,7 @@
 {
   "name": "controllers",
   "scope": "beatthat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a non-dogmatic MVC'ish framework for unity",
   "main": "index.js",
   "repository": {
