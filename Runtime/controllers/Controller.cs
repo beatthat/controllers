@@ -2,6 +2,7 @@ using UnityEngine;
 using BeatThat;
 using BeatThat.App;
 using System;
+using UnityEngine.Events;
 
 namespace BeatThat
 {
@@ -319,9 +320,43 @@ namespace BeatThat
 		private GameObject m_gameObject;
 	}
 
+    public struct ControllerModelUpdate<ModelType> where ModelType : class
+    {
+        public IController<ModelType> controller;
+        public ModelType modelFrom;
+        public ModelType modelTo;
+    }
+
 	public class Controller<ModelType> : Controller, IController<ModelType>, HasModel
 		where ModelType : class
 	{
+        
+        private ModelEvent m_onModelWillUpdate;
+        /// <summary>
+        /// Invoked immediately before the model is replaced
+        /// </summary>
+        public UnityEvent<ControllerModelUpdate<ModelType>> onModelWillUpdate
+        {
+            get
+            {
+                return m_onModelWillUpdate ?? (m_onModelWillUpdate = new ModelEvent());
+            }
+        }
+
+        private ModelEvent m_onModelDidUpdate;
+        /// <summary>
+        /// Invoked immediately after the model is replaced. The old/prev model is passed as param
+        /// </summary>
+        public UnityEvent<ControllerModelUpdate<ModelType>> onModelDidUpdate
+        {
+            get
+            {
+                return m_onModelDidUpdate ?? (m_onModelDidUpdate = new ModelEvent());
+            }
+        }
+
+        [Serializable] class ModelEvent : UnityEvent<ControllerModelUpdate<ModelType>> { }
+
 		public bool hasModel
 		{
 			get {
@@ -329,14 +364,14 @@ namespace BeatThat
 			}
 		}
 
-		virtual public ModelType model { get; set; }
+		public ModelType model { get; private set; }
 
-		virtual public void GoWithModel(object model)
+		public void GoWithModel(object model)
 		{
 			GoWith((ModelType)model);
 		}
 
-		virtual public void GoWith(ModelType m)
+		public void GoWith(ModelType m)
 		{
 			if(this.isBound) {
 				if(this.model == m) {
@@ -354,17 +389,61 @@ namespace BeatThat
 			Go();
 		}
 
-		virtual public void SetModel(object model)
+        /// <summary>
+        /// Set the model.
+        /// Sends update events according to policy (default is SendOnChange)
+        /// </summary>
+        /// <param name="model">Model.</param>
+        /// <param name="opts">Opts.</param>
+        /// <param name="disposePreviousModel">If TRUE and the Model type implements IDisposable, 
+        /// then calls Dispose on the previous model after set and all events.
+        /// </param>
+        public void SetModel(object model, 
+                             PropertyEventOptions opts = PropertyEventOptions.SendOnChange, 
+                             bool disposePreviousModel = true)
 		{
-			this.model = (ModelType)model;
+            var m = model as ModelType;
+            if (m == null && model != null)
+            {
+#if UNITY_EDITOR || DEBUG_UNSTRIP
+                Debug.LogWarning("[" + Time.frameCount + "] SetModel called with invalid type: expected type="
+                                 + typeof(ModelType) + " encountered type=" + model.GetType());
+#endif
+                return;
+            }
+
+            var update = new ControllerModelUpdate<ModelType>
+            {
+                controller = this,
+                modelTo = m,
+                modelFrom = this.model
+            };
+
+            if(m_onModelWillUpdate != null) {
+                m_onModelDidUpdate.Invoke(update);
+            }
+
+            var prev = this.model;
+
+			this.model = m;
+
+            if(m_onModelDidUpdate != null) {
+                m_onModelDidUpdate.Invoke(update);
+            }
+
+            var prevDispose = prev as IDisposable;
+            if(prevDispose != null) {
+                prevDispose.Dispose();
+            }
 		}
 
-		virtual public object GetModel()
+		public object GetModel()
 		{
 			return this.model;
 		}
 
 		public Type GetModelType() { return typeof(ModelType); }
+
 
 	}
 
