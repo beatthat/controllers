@@ -1,14 +1,13 @@
+using BeatThat.OptionalComponents;
 using UnityEditor;
 using UnityEngine;
-using BeatThat.Editor;
-using BeatThat.OptionalComponents;
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-/// <summary>
-/// Extend this class for concrete View inspectors to enable autowire feature in inspector
-/// 
-/// </summary>
-	[CustomEditor(typeof(View), true)]
+    /// <summary>
+    /// Extend this class for concrete View inspectors to enable autowire feature in inspector
+    /// 
+    /// </summary>
+    [CustomEditor(typeof(View), true)]
 	public class ViewEditor : UnityEditor.Editor
 	{
 		
@@ -27,3 +26,4 @@ namespace BeatThat
 	}
 
 }
+

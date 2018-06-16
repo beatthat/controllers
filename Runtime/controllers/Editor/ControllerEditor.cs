@@ -1,11 +1,14 @@
-using UnityEngine;
-using UnityEditor;
-using System;
+using BeatThat.Bindings;
+using BeatThat.CollectionsExt;
+using BeatThat.GetComponentsExt;
 using BeatThat.OptionalComponents;
+using BeatThat.Pools;
+using UnityEditor;
+using UnityEngine;
 
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	[CustomEditor(typeof(Controller), true)]
+    [CustomEditor(typeof(Controller), true)]
 	public class ControllerEditor : UnityEditor.Editor 
 	{
 		private bool m_showController;
@@ -217,3 +220,8 @@ namespace BeatThat
 		}
 	}
 }
+
+
+
+
+

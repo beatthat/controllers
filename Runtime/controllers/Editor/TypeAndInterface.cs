@@ -1,9 +1,9 @@
 using System;
 
 
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	public class TypeAndInterface  
+    public class TypeAndInterface  
 	{
 		public TypeAndInterface(Type t) :this(t, t)
 		{
@@ -26,3 +26,4 @@ namespace BeatThat
 		}
 	}
 }
+

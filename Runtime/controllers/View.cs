@@ -1,10 +1,8 @@
 using UnityEngine;
 
-using BeatThat.App;
-
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	public class View : MonoBehaviour, IView
+    public class View : MonoBehaviour, IView
 	{
 		public ViewEditorControls m_viewEditorControls; // exists just to make inspector draw controls for all view types
 
@@ -46,3 +44,4 @@ namespace BeatThat
 		protected IController m_controller;
 	}
 }
+

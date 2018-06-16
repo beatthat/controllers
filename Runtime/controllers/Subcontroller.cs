@@ -1,8 +1,10 @@
+using BeatThat.Bindings;
+using BeatThat.TransformPathExt;
 using UnityEngine;
 
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	public class Subcontroller : BindingBehaviour, ISubcontroller
+    public class Subcontroller : BindingBehaviour, ISubcontroller
 	{
 		/// <summary>
 		/// There are two common/default set ups:
@@ -113,3 +115,5 @@ namespace BeatThat
 	}
 
 }
+
+

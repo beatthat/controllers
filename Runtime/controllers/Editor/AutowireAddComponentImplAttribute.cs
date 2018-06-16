@@ -1,13 +1,12 @@
-using UnityEngine;
-using System.Collections;
 using System;
 
-namespace BeatThat.App
+namespace BeatThat.Controllers
 {
-	
-	[AttributeUsage(AttributeTargets.Method)]
+
+    [AttributeUsage(AttributeTargets.Method)]
 	public class AutowireAddComponentImplAttribute : System.Attribute 
 	{
 
 	}
 }
+

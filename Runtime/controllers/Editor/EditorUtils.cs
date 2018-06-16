@@ -1,16 +1,14 @@
 #if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-using System;
-using System.Collections.Generic;
 
-using System.Reflection;
-
-
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	public static class EditorUtils 
+    public static class EditorUtils 
 	{
 
 
@@ -270,3 +268,4 @@ namespace BeatThat
 	}
 }
 #endif
+

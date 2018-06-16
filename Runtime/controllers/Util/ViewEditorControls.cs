@@ -1,12 +1,12 @@
-
-namespace BeatThat.App
+namespace BeatThat.Controllers
 {
-	/// <summary>
-	/// A marker property that makes it easy to add controls to all MBView types in the Unity inspector
-	/// </summary>
-	[System.Serializable]
+    /// <summary>
+    /// A marker property that makes it easy to add controls to all MBView types in the Unity inspector
+    /// </summary>
+    [System.Serializable]
 	public class ViewEditorControls  
 	{
 
 	}
 }
+

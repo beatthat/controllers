@@ -2,13 +2,11 @@ using System;
 
 using System.Collections.Generic;
 using System.Reflection;
-
-using BeatThat.App;
 using UnityEngine;
 
-namespace BeatThat.Editor
+namespace BeatThat.Controllers
 {
-	public static class ControllerEditorUtils 
+    public static class ControllerEditorUtils 
 	{
 
 		private static MethodInfo[] FindAutoWireAddComponentImpls()
@@ -117,3 +115,4 @@ namespace BeatThat.Editor
 	}
 
 }
+

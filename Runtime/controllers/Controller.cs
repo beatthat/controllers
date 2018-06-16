@@ -1,17 +1,24 @@
-using UnityEngine;
-using BeatThat;
-using BeatThat.App;
 using System;
+using BeatThat.Bindings;
+using BeatThat.Commands;
+using BeatThat.GameObjectUtil;
+using BeatThat.GetComponentsExt;
+using BeatThat.Notifications;
+using BeatThat.Pools;
+using BeatThat.Properties;
+using BeatThat.SafeRefs;
+using BeatThat.TransformPathExt;
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace BeatThat
+namespace BeatThat.Controllers
 {
-	/// <summary>
-	/// Basic Controller impl that you can subclass.
-	/// 
-	/// Includes the behaviour to find and manage any sibling ISubcontroller behaviours.
-	/// </summary>
-	public class Controller : BindingBehaviour, IController
+    /// <summary>
+    /// Basic Controller impl that you can subclass.
+    /// 
+    /// Includes the behaviour to find and manage any sibling ISubcontroller behaviours.
+    /// </summary>
+    public class Controller : BindingBehaviour, IController
 	{
 		public enum TriggerEvent { NONE = 0, START = 1, ENABLE = 2 }
 
@@ -249,7 +256,7 @@ namespace BeatThat
 				return cs;
 			}
 
-			var csType = TypeUtils.Find("BeatThat.App.CommandSet");
+			var csType = TypeUtils.Find("BeatThat.Notifications.CommandSet");
 			if(csType == null) {
 				#if UNITY_EDITOR || APE_DEBUG_UNSTRIP
 				Debug.LogWarning("[" + Time.frameCount + "][" + this.Path()
@@ -319,13 +326,6 @@ namespace BeatThat
 		#pragma warning restore 649
 		private GameObject m_gameObject;
 	}
-
-    public struct ControllerModelUpdate<ModelType> where ModelType : class
-    {
-        public IController<ModelType> controller;
-        public ModelType modelFrom;
-        public ModelType modelTo;
-    }
 
 	public class Controller<ModelType> : Controller, IController<ModelType>, HasModel
 		where ModelType : class
@@ -625,3 +625,9 @@ namespace BeatThat
 		private bool m_viewIsComponent;
 	}
 }
+
+
+
+
+
+
