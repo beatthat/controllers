@@ -3,6 +3,7 @@ using BeatThat.CollectionsExt;
 using BeatThat.GetComponentsExt;
 using BeatThat.OptionalComponents;
 using BeatThat.Pools;
+using BeatThat.TypeUtil;
 using UnityEditor;
 using UnityEngine;
 

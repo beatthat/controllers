@@ -8,6 +8,7 @@ using BeatThat.Pools;
 using BeatThat.Properties;
 using BeatThat.SafeRefs;
 using BeatThat.TransformPathExt;
+using BeatThat.TypeUtil;
 using UnityEngine;
 using UnityEngine.Events;
 
