@@ -515,7 +515,7 @@ namespace BeatThat.Controllers
 		{
 			this.view = null;
 			if(m_viewPlacement != null) {
-				m_viewPlacement.Delete();
+				m_viewPlacement.Release();
 			}
 		}
 
