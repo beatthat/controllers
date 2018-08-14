@@ -29,25 +29,35 @@ namespace BeatThat.Controllers
 			}
 
 			var c = this.target as Controller;
+            int countChildViews = 0;
 			if (c is ViewController && c.GetComponent<IView> () == null
 				&& c.GetComponent<IViewPlacement> () == null
-				&& (c.transform.childCount != 1 || c.transform.GetChild(0).GetComponent<IView>() == null)) {
+                && (countChildViews = c.CountComponentsInDirectChildren<IView>(true)) != 1) {
 
-				EditorGUILayout.HelpBox ("Missing required View or ViewPlacement component", MessageType.Warning);
-				GUI.backgroundColor = Color.yellow;
-				if (GUILayout.Button ("Add a ViewPlacement")) {
-					c.AddIfMissing<ViewPlacement> ();
-				}
-				if (GUILayout.Button ("Generate a View")) {
-					EditorUtility.DisplayDialog ("Generate a View", "This would be a great feature to have!\nSomeone build it", "OK");
-				}
-				GUI.backgroundColor = bkgColorSave;
+                if(countChildViews > 0) {
+                    EditorGUILayout.HelpBox("Illegal state: no view or viewplacement sibling for controller and multiple view objects in direct children", MessageType.Warning);
+                    GUI.backgroundColor = bkgColorSave;
+                }
+                else {
+                    EditorGUILayout.HelpBox("Missing required View or ViewPlacement component", MessageType.Warning);
+                    GUI.backgroundColor = Color.yellow;
+                    if (GUILayout.Button("Add a ViewPlacement"))
+                    {
+                        c.AddIfMissing<ViewPlacement>();
+                    }
+                    if (GUILayout.Button("Generate a View"))
+                    {
+                        EditorUtility.DisplayDialog("Generate a View", "This would be a great feature to have!\nSomeone build it", "OK");
+                    }
+                    GUI.backgroundColor = bkgColorSave;
+                }
 			}
 
 			c.OnGUIProposeAddOptionalComponents ();
 
 			this.serializedObject.ApplyModifiedProperties();
 		}
+
 
 		public static void AddControllerFoldout(UnityEditor.Editor editor, ref bool showControllerFoldout, ref bool showAttachedBindingsFoldout)
 		{
