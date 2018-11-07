@@ -158,7 +158,7 @@ namespace BeatThat.Controllers
 		/// Base implementation sets isBound property.
 		/// overriding implementations should call base.Bind() as last step
 		/// </summary>
-		override protected void BindAll()
+		sealed override protected void BindAll()
 		{
 			if(!this.isBound) {
 				BindController();
