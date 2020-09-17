@@ -11,7 +11,8 @@
     "unity2clone-overwrite": "./node_modules/.bin/unity2clone-overwrite"
   },
   "dependencies": {
-    "controllers": "../controllers-latest.tgz"
+    "controllers": "../controllers-latest.tgz",
+    "@beatthat/unity-npm-utils": "../beatthat-unity-npm-utils.tgz"
   },
   "devDependencies": {
     "babel-core": "^5.8.23",
