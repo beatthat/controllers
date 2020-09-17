@@ -377,17 +377,23 @@ namespace BeatThat.Controllers
 			if(this.isBound) {
 				if(this.model == m) {
 					Go();
-					return;
 				}
-
-				Unbind();
-				this.model = default(ModelType);
+				else {
+					OnUpdateModel(this.model, m);
+				}
+				return;
 			}
-
 			Reset();
 			this.model = m;
 			Bind();
 			Go();
+		}
+
+		virtual protected void OnUpdateModel(ModelType prev, ModelType cur)
+		{
+			Unbind();
+			this.model = default(ModelType);
+			GoWith(cur);
 		}
 
         /// <summary>
